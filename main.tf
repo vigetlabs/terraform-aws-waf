@@ -55,9 +55,9 @@ resource "aws_wafv2_regex_pattern_set" "ignored_uri" {
 ## Note override action = none to have default behavior of managed rule when active https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/wafv2_web_acl#none
 resource "aws_wafv2_web_acl" "this" {
   count = module.this.enabled ? 1 : 0
-  
+
   name  = module.this.id
-  scope = "REGIONAL"
+  scope = upper(var.scope)
   tags = merge(module.this.tags, {
     Name = module.this.id
   })

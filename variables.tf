@@ -1,3 +1,16 @@
+variable "scope" {
+  type        = string
+  default     = "regional"
+  description = <<EOT
+    Whether the WAF should be for a regional application or cloudfront
+    Note: if cloudfront provider must specify the us-east-1 region
+    EOT
+  validation {
+    condition     = contains(["regional", "cloudfront"], var.scope)
+    error_message = "Allowed values: `regional`, `cloudfront`."
+  }
+}
+
 variable "waf_mode" {
   type        = string
   default     = "monitoring"
