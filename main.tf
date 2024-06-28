@@ -5,7 +5,7 @@ resource "aws_wafv2_ip_set" "ipv4" {
   count = module.this.enabled ? 1 : 0
 
   name               = "${module.this.id}-ipv4-blocklist"
-  scope              = "REGIONAL"
+  scope              = upper(var.scope)
   ip_address_version = "IPV4"
   addresses          = var.blocked_ips.ipv4
 
@@ -18,7 +18,7 @@ resource "aws_wafv2_ip_set" "ipv6" {
   count = module.this.enabled ? 1 : 0
 
   name               = "${module.this.id}-ipv6-blocklist"
-  scope              = "REGIONAL"
+  scope              = upper(var.scope)
   ip_address_version = "IPV6"
   addresses          = var.blocked_ips.ipv6
 
@@ -33,8 +33,8 @@ resource "aws_wafv2_ip_set" "ipv6" {
 resource "aws_wafv2_regex_pattern_set" "ignored_uri" {
   count = module.this.enabled ? 1 : 0
 
-  name  = "ignored_uri"
-  scope = "REGIONAL"
+  name  = "${module.this.id}-ignored_uri"
+  scope = upper(var.scope)
 
   dynamic "regular_expression" {
     for_each = toset(var.common_rule_set_ignored_uri_regex)
